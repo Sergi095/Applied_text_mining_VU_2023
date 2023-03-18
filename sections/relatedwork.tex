@@ -1,0 +1,29 @@
+
+Negation Cue detection received a lot of attention from the scientific community \cite{story2020}. For instance, Lapponi et. al. \cite{lapponi2012uio} describes a system submitted by the University of Oslo to the 2012 SEM Shared Task on revolving negation. The authors based their identification of negation cues work on the light-weight classification scheme presented by Velldal et. al. \cite{velldal2012speculation}, using an SVM classifier trained using simple n-gram features over words, both full forms and lemmas of the word in question and of words to the left and to the right of it. 
+
+The authors added features to identify morphological or affixal cues in addition to token-level features. The first of these features records character n-grams from both the beginning and end of the base that an affix attaches to (up to five positions). The second feature targets affix cues. The authors try to emulate the effect of a lexicon look-up on the remaining substring after "subtracting" the affix, checking the status of both the remaining substring and its POS tag. 
+
+The authors explain the motivation behind this feature as \textit{"the occurrence of a substring such as 'un' in a token such as 'underlying' should be considered more unlikely to be a cue given that the first part of the remaining string (e.g., 'derly') would be an unlikely way to begin a word.} \\
+
+Chowdhury et. al. \cite{chowdhury2012fbk} presents a system for the automatic detection of negation cues along with their scopes and corresponding negated events presented for Task 1 of the 2012 SEM Shared Task. The authors claim their approach uses comparatively fewer features than other works developed for the same task. They approach the problem as a sequence classification task, training different 1st order Conditional Random Field classifiers for each of the different subtasks. 
+For the negation cue detection subtask, the authors automatically collect a vocabulary of all the positive tokens after excluding negation cue affixes from the training data and use them to extract features that could help to identify negation cues that are subtokens. They also create a list of highly probable negation expressions (\textit{NegExpList}) from the training data based on the frequencies. The list contains the following terms: \textit{nor, neither, without, nobody, none, nothing, never, not, no, nowhere} and  \textit{non}. Additional post-processing is done to annotate some obvious negations missed by the classifier. The final feature set for the negation cue classifier is shown in Table \ref{tab:chowdhury}
+
+The extraction of dependency graphs and features based on this could help in modelling the syntactic relationship between each token and the closest negation cue. Jiménez-Zafra et. al. \cite{jimenez2020detecting} focused their work on the detection of negation scopes and cues in Spanish, and among other features, they extracted dependency features as the dependency relation and direction between the token and the cue, and the dependency shortest path from the token in focus to the cue and vice versa. Also, Cruz et. al. \cite{cruz2016machine} showed that highly accurate extraction of syntactic structure is beneficial for the negation scope detection task. Lapponi et. al \cite{lapponi2012uio} uses features defined over dependency graphs. All these works have in common the use of dependency-based features for the task of Negation Scope and Cue detection and they have proved that the use of these types of features improves the performance of the classifiers in these tasks.
+
+No mention was found of using the XGBoost algorithm for negation cue detection for English corpora, yet Domınguez-Mas et.al. (2019) \cite{xgb2019} applied it and SVM-linear model for the Spanish dataset for negation cue detection, and it performed better than the SVM-linear model. Current research, therefore, aims to compare the performance of these two algorithms for negation cue detection in English.  
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+\multicolumn{1}{c}{\textbf{~ ~ ~ Feature Name~ ~ ~ ~}} & \multicolumn{1}{c}{\textbf{Description}}                                                                                               \\ 
+\hline\hline
+POS_i                                                & Part-of-Speech of $token_i$                                                                                                             \\
+Lemma_i                                               & Lemma form of $token_i$                                                                                                                 \\
+Lemma_{i-1}                                         & Lemma form of $token_{i-1}$                                                                                                           \\
+hasNegPrefix                                           & \begin{tabular}[c]{@{}l@{}}If token\_i has a negation~\\prefix and is found inside the\\automatically created vocabulary\end{tabular}  \\
+hasNegSuffix                                           & \begin{tabular}[c]{@{}l@{}}If token\_i has a negation\\suffix and is found inside the\\automatically created vocabulary\end{tabular}   \\
+matchesNegExp                                          & If $token_i$ is found in \textit{NegExpList}                                                                           \\
+\hline
+\end{tabular}
+\caption{\label{tab:chowdhury} Feature set in Chowdhury et.al. Negation Cue Classifier}
+\end{table}

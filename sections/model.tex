@@ -1,0 +1,86 @@
+
+\subsection*{Corpus Description\label{sec:corpus_description}}
+ 
+Before the emergence of SEM 2012, the only dataset used for the Negation Cue Classification available was the Bioscope dataset, which was collected from medical papers, and the main objective was to build classifiers that would allow reliable interpretation of medical research. Unfortunately, the classifiers built on that dataset would generalise poorly to other texts, therefore SEM CD-SCO dataset was created in order to create a possibility to train negation cue classifiers applicable to non-scientific language. CD-SCO was built on Conan Doyle stories. Originally, CD-SCO is annotated with negation cues, scope of negation, and the event or property being negated. For this task, however, the scope and negated event or property annotations are going to be disregarded.
+
+\begin{table}
+\centering
+\begin{tabular}{llll}
+\multicolumn{1}{c}{\textbf{Dataset}} & \multicolumn{1}{c}{\textbf{O}} & \multicolumn{1}{c}{\textbf{B-NEG}} & \multicolumn{1}{c}{\textbf{I-NEG}}                                                                                            \\ 
+\hline\hline
+Training Set & 64448 & 987 & 16\\
+Test Set 1 & 64448 & 987 & 16\\
+Test Set 2 & 64448 & 987 & 16\\
+Development Set & 13388 & 176 & 3
+\textit{NegExpList}\\
+\hline
+\end{tabular}
+\caption{\label{tab:tags} Annotation tag counts}
+\end{table}
+
+
+Without the scope and negated property or event annotations, the dataset consists of five columns. A snippet of the dataset can be seen in Table \ref{tab:trainingdf}, representing the sentence: \textit{"Remarkable, but by no means impossible," said Holmes, smiling."}. The first column contains information about which story the token is from and which chapter. The second column represents the number of the sentence the token is taken from. The third column represents the position of the token itself in the sentence. The fourth column is the token itself. The last column represents if the token is a negation cue. If the token is not a negating one, it is marked with 'O', if it is a single-word negation cue it is marked with 'B-NEG'. If the negation consists of more than one world, for example, 'by no means', token 'no' is marked as 'B-NEG', as a main negation word, and tokens 'by' and 'means' are marked as 'I-NEG', representing their negating role in this context, while being 'O' in another context. Below is the table that presents counts of each tag for Training and Development datasets.
+
+\begin{table}
+\centering
+\begin{tabular}{ccccc}
+file       & nSentence & nToken & Token        & Golden Label  \\ 
+\hline
+wisteria01 & 248       & ~ ~0   & ~ ~\`{}\`{}~ & O             \\
+wisteria01 & 248       & 1      & Remarkable   & O             \\
+wisteria01 & 248       & 2      & ,            & O             \\
+wisteria01 & 248       & 3      & but          & O             \\
+wisteria01 & 248       & 4      & by           & B-NEG         \\
+wisteria01 & 248       & 5      & no           & I-NEG         \\
+wisteria01 & 248       & 6      & means        & I-NEG         \\
+wisteria01 & 248       & 7      & impossible   & B-NEG         \\
+wisteria01 & 248       & 8      & ,            & O             \\
+wisteria01 & 248       & 9      & ''           & O             \\
+wisteria01 & 248       & 10     & said         & O             \\
+wisteria01 & 248       & 11     & Holmes       & O             \\
+wisteria01 & 248       & 12     & ,            & O             \\
+wisteria01 & 248       & 13     & smiling      & O             \\
+wisteria01 & 248       & 14     & .            & O             \\
+\hline
+\end{tabular}
+\caption{\label{tab:trainingdf}Training dataset snippet}
+\end{table}
+ 
+
+
+
+\subsection*{Corpus Pre-Processing}
+
+Given that the original corpus has been already pre-processed and tokenized, it was not possible to extract additional linguistic information from it, at least not in its tabular form. Because of this reason,the dataset was reverse-engineered, reconstructing the original sentences and applying NLP tasks over them in order to extract additional information e.g. a token's POS tag. 
+
+Once the original sentences were reconstructed, we use the spaCy library to perform the new NLP analysis, extracting a new set of tokens for each sentence. In most cases, the spaCY tokenization and the original tokenization matched, but in some cases, these two tokenizations differed, for example with some compound words like \textit{old-fashioned} which in the original dataset is tokenized as a single token and spacy tokenize it as \textit{old}, '\textit{-}' and \textit{fashioned}. In such cases, original tokenization was preserved. 
+
+\subsection*{Feature Extraction \label{sec:featureextraction}}
+
+Feature extraction plays a crucial role in building effective classifiers, as by properly extracting relevant features, NLP classifiers can achieve better accuracy and generalizability. It consists of the process of identifying and extracting relevant information from text data, which is then used as input to a machine learning algorithm.
+
+Taking inspiration from previous research described above \ref{sec:relatedwork}, a set of features from the NLP analysis were selected, like the POS-tag and l from each token, and also the lemma from the previous token. Also, using the spaCy dependency parser and inspired by \cite{jimenez2020detecting} a set of dependency features as the head from each sentence and the dependency label from each token to its sentence-head were extracted. The length of the path connecting each token to its head was also extracted. 
+
+The \textit{NegExpList} described in \cite{chowdhury2012fbk} and checked each token for its presence in the list was also extracted as a feature. The list contains the following terms: \textit{nor, neither, without, nobody, none, nothing, never, not, no, nowhere} and  \textit{non}, which are only terms with a negative polarity. Additionally, a check was performed for each token containing the affixes described in \cite{lapponi2012uio}: \textit{un}, \textit{dis}, \textit{ir}, \textit{im}, and \textit{in}, and the infix and suffix \textbf{less}. A complete description of the extracted features is shown in Table \ref{tab:features}.
+
+As the training of the model itself shall be performed, as well as validating and testing, the set of features might change: be shortened, or additional features will be added or engineered. All such changes will be described later in the report. 
+
+%maybe add a paragraph saying these are not the definitive set but we will experiment and try different sets looking for the optimal?
+
+\begin{table}
+\centering
+\begin{tabular}{ll}
+\multicolumn{1}{c}{\textbf{~ ~ ~ Feature Name~ ~ ~ ~}} & \multicolumn{1}{c}{\textbf{Description}}                                                                                              \\ 
+\hline\hline
+POS_i                                                 & Part-of-Speech tag of token_i\\
+Lemma_i                                               & Lemma form of token_i\\
+Lemma_{i-1}                                           & Lemma form of token_{i-1}\\
+Dependency                                            & Dependency Label from $token_{i}$ with\\& respect to to its sentence root \\
+Head                                                  & Sentence root\\
+RootPath                                              & Length of the path from token to its root\\
+hasNegAffix                                           & Token contain one of the affix from list \\
+NegExpList                                            & If token is in \textit{NegExpList}\\
+\hline
+\end{tabular}
+\caption{\label{tab:features} Set of features for our classifier}
+\end{table}

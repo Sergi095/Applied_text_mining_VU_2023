@@ -1,0 +1,35 @@
+
+\subsubsection{Support Machine Vectors}
+ SVM was first introduced by Vapnik and Cortes(1995) \cite{vapnik1995}, and was quickly recognized as one of the most successful classification algorithms. The basic idea behind the model is finding such a hyperplane between the plotted classes in a way, where the margin, i.e. the distance, between the two classes is maximized. SVM algorithms show great robustness against noise and control over-fitting \cite{robust2009}. Moreover, previous work regarding the application of SVM for negation Cue Detection, as described in the Related Work section, suggests the state-of-the-art performance of the algorithm for this task. 
+%This specific experiment seeks to examine the effect of adding dependency features as predictors for the algorithm, in order to continue the work of  Lapponi et.al.\cite{lapponi2012uio} and Cruz et. al.\cite{cruz2016machine}.
+
+SVM was implemented with a pipeline that includes feature scaling, feature selection, and classification. The feature scaling step was performed using the $StandardScaler$ method. The feature selection step was performed using the $SelectKBest$ method with mutual information classification as the scoring function, selecting the top 10 features. The classifier used was the SVM implementation from the $ThunderSVM$ library\cite{thundersvm}.
+
+As Table \ref{tab:tags} illustrates, the dataset is highly unbalanced. To address this issue, in addition to the SVM model, $RandomOverSampler$ was employed to even out the class distribution. This is a method for balancing class distributions by randomly over-sampling the minority class. By increasing the presence of the minority class, $RandomOverSampler$ helps to counteract the influence of the majority class and leads to a more robust and accurate classifier. Therefore, the pipeline was evaluated using two different configurations: with and without oversampling. In the pipeline without oversampling, the features were directly fed into the classifier. In the pipeline with oversampling, the features were oversampled using the $RandomOverSampler$ method, with a sampling strategy of "minority", before being fed into the classifier.
+
+The hyperparameters of the SVM classifier were fine-tuned using a grid search method with 3-fold cross-validation. The grid search was performed on two hyperparameters: C and kernel, with values of 1.0 and 10.0 for C and "linear" and "polynomial" for the kernel. The results of the grid search showed that the best parameters for the SVM classifier were $C=10.0$ and $kernel='polynomial'$ for the pipeline without oversampling and $C=1.0$ and $kernel='polynomial'$ for the pipeline with oversampling, as shown in table \ref{tab: Optimal params}.
+
+% -------------
+
+Finally, the sklearn \cite{scikit-learn} TF-IDF (term frequency-inverse document frequency) vectorizer was applied to convert the text features into numerical representations that are suitable for the SVM model. 
+ 
+\subsubsection{XGBoost's} tree-based classifier is a complex machine learning approach, that shows excellent performance in capturing very complex patterns in data \cite{minasny2009elements}. The algorithm sequentially builds new trees upon the starting predictor tree, and each new tree is trying to predict the margin of error of the decision, produced by the ensemble of trees it is build upon \cite{minasny2009elements}.
+
+In the current research, XGboost's tree-based classifier was implemented with XGBoost package. The $tree\_method$ parameter was set to $gpu\_hist$ in order to decrease the running time (this algorithm performs sketching only once and uses GPU). $n\_jobs$ was set to 1, also to decrease the running time, and $scale\_pos\_weights$ was set to 65 to balance the positive and negative weights of the nodes. All other parameters were set to default. The rest of hyperparameters values were determined by gridsearch, results presented in \ref{tab: Optimal params}.
+
+$RandomOverSampler$ was applied for one of the XGBoost models, in order to compare its performance with normal XGBoost Classifier and SVM Classifier with Oversampling.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{ccccc}
+ & XGBoost &  & SVM &  \\ \hline
+\multicolumn{1}{c|}{Technique} & Learning Rate & \multicolumn{1}{c|}{Max Depth} & C & Kernel \\ \hline
+\multicolumn{1}{c|}{No Oversampling} & 0.01 & \multicolumn{1}{c|}{5} & 10 & polynomial \\
+\multicolumn{1}{c|}{Oversampling} & 0.01 & \multicolumn{1}{c|}{7} & 1 & Polynomial \\ \hline
+\end{tabular}
+\caption{Optimal Hyperparameters Found by GridsearchCV}
+\label{tab: Optimal params}
+\end{table}
+
+\subsubsection*{Experimental setup}
+In total, four models were trained: SVM Classifier with and without Random Over Sampling and XGBoost Classifier with and without Random Over Sampling. All models were trained on the training dataset and tested on two test datasets described in \ref{tab:tags}
