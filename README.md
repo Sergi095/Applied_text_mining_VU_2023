@@ -8,7 +8,7 @@ This repository contains code and data for an automatic negation cue classifier 
 
 * plots and results: folder with all plots, saved models and metrics of the experiment.
 * Applied_text_mining_conda_Env.yml: This file contains the environment used for this project.
-* Tex project: The LaTeX project for the final report of the project, with a folder for the sections.
+* Tex project: The LaTeX project for the final report, with a folder for the sections.
 
 Within the python_and_notebook folder:
 *  classifier_svm_vs_xgboost.ipynb: This is the main notebook that contains the experiments and results of the classifier.
