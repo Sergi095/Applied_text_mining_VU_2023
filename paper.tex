@@ -53,15 +53,10 @@ Sergio A. Gutierrez Maury (2647606)
 
 
 \section*{Introduction}
-
-
+\input{sections/introduction}
 \section*{Related Work}
-
-
+\input{sections/relatedwork}
 \section*{Data Annotation Experiment}
-
-
-\section*{Building an automatic Negation Cue Classifier}
 
 \section*{Methods}
 
@@ -70,44 +65,14 @@ Sergio A. Gutierrez Maury (2647606)
 \section*{Conclusion and Discussion}
 
 
-
-
-
-
-
-%For XGBoost, this behaviour might be explained by the fact, that despite evidence from previous research, as shown in \ref{fig:feature importance}, dependency features were not deemed important by the model. Unfortunately, since gridsearch suggested that $kernel$ should be set to $polynomial$ for the SVM models, it was not possible to extract information about feature importance for them. 
-
-%Therefore, it seems, that at least for XGBoost, the models did not get a chance to rely on the syntatic structure of the sentence, therefore not learning any specific pattern of negation, and relying greatly on the 
-
-%Therefore, for future research it is important to consider 
-
-%As mentioned above, both models performed considerably worse detecting $B\_NEG$ and  $I\_NEG$ labels, than detecting $O$ labels. It is suspected, that this behaviour occurs due to a big imbalance of negation versus non-negation in the training, testing and development datasets, and it seems like performing Random Over Sampling does not solve the problem, and even decreases the performance of the model in some cases. Therefore, for further research, it is important to consider training the model on more balanced datasets and then testing them on imbalanced ones, and vice versa. That way, a robust approach can be found. 
-
-%Moreover, from Error analysis, it seems that XGBoost with Random Over Sampling does not seem to be able to detect 'not' as non-negation in non-negating contexts. It therefore can be concluded that the model is not 'smart' enough to get the patterns of negation, and greatly relies on the token itself, as can be confirmed by the fact, that whether or not token was in the \textit{NegExpList}, was the best predictor of the model. It is, therefore, necessary to explore ways to avoid such behaviour, such as training the model on bigger datasets without the use of this feature entirely, in order to let the model pick up the patterns, rather than learning to rely so heavily on \textit{NegExpList}.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \newpage
 % \section*{Conclusion and Discussion}
 \printbibliography
 
 
 \appendix
-\section{Appendix - Work Division}
+\section{Appendix}
 
-
-\section{Appendix - Changes With Respect to Previous Assignment}
 
 
 
