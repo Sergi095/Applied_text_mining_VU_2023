@@ -1,6 +1,11 @@
 
 
 \documentclass[runningheads]{llncs}
+\usepackage[utf8]{inputenc}
+% \renewcommand{\baselinestretch}{1.5} 
+\usepackage[english]{babel}
+\usepackage[a4paper,inner=1.7cm,outer=2.7cm,top=2cm,bottom=2cm,
+bindingoffset=1.2cm]{geometry}
 \usepackage[
 backend=biber,
 style=ieee]{biblatex}
@@ -13,8 +18,9 @@ style=ieee]{biblatex}
 \usepackage{hhline}
 \usepackage{hyperref}
 \graphicspath{ {./images/} }
-
-
+\usepackage{mwe}
+\usepackage{float}
+\usepackage[section]{placeins}
 \usepackage[scaled=.92]{mathptmx}
 \usepackage{microtype}
 \usepackage{graphicx}
@@ -53,24 +59,23 @@ Sergio A. Gutierrez Maury (2647606)
 \input{sections/Abstract}
 \end{abstract}
 
-\section*{Introduction}
+\section{Introduction}
 \input{sections/introduction}
-\section*{Related Work \label{sec:relatedwork}}
+\section{Related Work \label{sec:relatedwork}}
 \input{sections/relatedwork}
-\section*{Data Annotation}
+\section{Data Annotation}
 \input{sections/dataannotexpe}
-\section*{Dataset Description}
+\section{Dataset Description}
 \input{sections/dataset_description}
-\section*{Corpus Pre-processing \& Feature Extraction}
+\section{Corpus Pre-processing \& Feature Extraction}
 \input{sections/corpusFeature}
-\section*{Experiments}
+\section{Experiments}
 \input{sections/experiments}
-\section*{Error Analysis}
-% \input{sections/error_analysis}
-\section*{Discussion \& Conclusions}
-%\input{sections/conclusionDiscussion}
+\section{Error Analysis}
+\input{sections/error_analysis}
+\section{Discussion \& Conclusions}
+% \input{sections/conclusionDiscussion}
 \newpage
-% \section*{Conclusion and Discussion}
 \printbibliography
 
 
