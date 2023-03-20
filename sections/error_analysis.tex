@@ -1,0 +1,44 @@
+
+In order to get a better understanding of the capabilities and weaknesses of our models, qualitative error analysis of the predictions made by the best model (XGBoost with oversampling) over the SEM 2012 circle test set was performed.
+
+Hossain et. al. \cite{hossain2020predicting} highlights the importance of performing this type of analysis when building a negation classifier, as negation is a complex semantic phenomenon that interacts with other aspects of the meaning and structure of sentences, and this complexity is reflected in the diversity of errors. Cruz et. al. \cite{cruz2016machine} also performed a qualitative error analysis focusing on the false negative (FN) and false positive (FP) errors. A false negative error occurs when the system does not identify a negative cue token that is marked as such in the set. A false positive error occurs when the classifier identifies a negative cue token that is not marked as such in the set.
+
+There is a total of 134 false positives divided into 12 where the model classified the token with the class B-NEG and 122 with I-NEG. From the 12 B-NEG golden label tokens, 8 of them correspond to the token \textit{not}. Some of these cases are shown in Table \ref{tab:fps}. It is very interesting to note that all the 134 false positives do not contain an affix from the list described in Section \ref{sec:featureextraction} (\textit{hasNegAffix} feature), and in the case of the 122 I-NEG classified tokens, all of them are not present in the list of highly probable negation expressions (\textit{NegExpList} feature), while all the 12 B-NEG classified tokens are.
+
+
+\begin{table}
+\centering
+\refstepcounter{table}
+\begin{tabular}{lccc}
+\multicolumn{1}{c}{Sentence}                                                                                                                                                                                                                              & Token   & Golden Label & Prediction  \\ 
+\hline
+Why not write?                                                                                                                                                                                                                                           & not     & O            & B-NEG       \\
+Suggestive, Watson, is it not?                                                                                                                                                                                                                         & not     & O            & B-NEG       \\
+\begin{tabular}[c]{@{}l@{}}How is any news or any message to reach\\him from without?\end{tabular}                                                                                                                                                        & without & O            & B-NEG       \\
+\begin{tabular}[c]{@{}l@{}}It 's all very appropriate to Mrs. Warren 's \\lodger.\end{tabular}                                                                                                                                                            & all     & O            & I-NEG       \\
+That is definite enough.                                                                                                                                                                                                                                  & enough  & O            & I-NEG       \\
+\begin{tabular}[c]{@{}l@{}}Finally	Gennaro	told	me,	through	the	paper,\\that		he		would		signal		to		me		from~a		certain	\\window,		but		when		the		signals		came		they	\\were		nothing		but		warnings,~which		were	\\suddenly		interrupted.\end{tabular} & nothing & O            & B-NEG       \\
+\hline
+\end{tabular}
+\caption{\label{tab:fps}Sample of false positives in test set predictions}
+\end{table}
+
+
+Also, there is a total of 31 false negatives divided into 29 where the model predicted O and the golden label is B-NEG, and only 2 where the golden label is I-NEG and the model predicted O. From these 29 errors, 16 corresponds to the token \textit{n't}, which \cite{cruz2016machine} defines as incorrect classification of a \textit{multiword cue}. A sample of these errors is shown in Table \ref{tab:fns}. It is interesting to note that in both errors where the golden label is I-NEG, the token associated is \textit{more} but in different contexts and making a different usage of the word. In both cases, the token is neither in the \textit{NegExpList} list nor containing an affix from the affixes list (\textit{hasNegAffix} feature).
+
+\begin{table}
+\centering
+\refstepcounter{table}
+\begin{tabular}{lccc}
+\multicolumn{1}{c}{Sentence}                                                                                                           & Token   & Golden Label & Prediction  \\ 
+\hline
+You don't object to tobacco, I take it?                                                                                                & n't     & B-NEG        & O           \\
+I can't sleep for fright .                                                                                                             & n't     & B-NEG        & O           \\
+I 'll have no more of it!                                                                                                              & more    & I-NEG        & O           \\
+\begin{tabular}[c]{@{}l@{}}He struck Gennaro senseless and fled from\\the house which he was never more to enter.\end{tabular}         & more    & I-NEG        & O           \\
+\begin{tabular}[c]{@{}l@{}}But surely the most valuable hunting-ground\\that ever was given to a student of the\\unusual!\end{tabular} & unusual & B-NEG        & O           \\
+At first, I thought that it was dislike.                                                                                                & dislike & B-NEG        & O           \\
+\hline
+\end{tabular}
+\caption{\label{tab:fns}Sample of false negatives in test set predictions}
+\end{table}
