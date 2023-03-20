@@ -26,18 +26,21 @@ The experimental setup consisted in an ablation approach to investigate the impa
 
 
 \subsection{XGBoost}
-XGBoost is a powerful and complex machine learning algorithm that has shown excellent performance in capturing intricate patterns in data \cite{minasny2009elements}. As a tree-based classifier, it sequentially builds new trees upon the starting predictor tree, with each new tree aiming to predict the margin of error of the decision produced by the ensemble of trees it is built upon \cite{minasny2009elements}.
+\textbf{XGBoost} is a powerful and complex machine learning algorithm that has shown excellent performance in capturing intricate patterns in data. As a tree-based classifier, it sequentially builds new trees upon the starting predictor tree, with each new tree aiming to predict the margin of error of the decision produced by the ensemble of trees it is built upon \cite{minasny2009elements}.
 
 In the present research, XGBoost's tree-based classifier was implemented with the XGBoost package. The $tree\_method$ parameter was set to $gpu\_hist$ in order to decrease the running time of the algorithm. Specifically, this approach performs sketching only once and makes use of GPU, thereby enhancing computational efficiency.
 
 \FloatBarrier
 \subsection{Classification Experiments}
 
+During the ablation study, a random feature was removed at each iteration, and the performance of the classifiers was evaluated. The best-performing iterations, denoted as iteration 1 for SVM and iteration 2 for XGBoost, were selected based on their weighted F1-score, which provides a harmonic-weighted average of precision and recall. The weighted F1-score is an appropriate choice as it considers both the balance between precision and recall and the contribution of each class, making it suitable for evaluating classification performance in the presence of imbalanced datasets.
+
+
 \begin{figure}[!h]
 \centering
     \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_svm.pdf}}
   \caption{Confusion Matrices Best Selected SVM}
-  \label{fig:base_best_svm}
+  \label{fig:best_svm}
 \end{figure}
 
 
@@ -47,6 +50,8 @@ In the present research, XGBoost's tree-based classifier was implemented with th
   \caption{Metrics During Ablation Study SVM}
   \label{fig:metrics_svm_training}
 \end{figure}
+
+Table \ref{tab:results} presents the classification reports for the best-performing Support Vector Machine (SVM) and XGBoost iterations. Notably, the removal of the feature Token had a remarkable impact on the performance of the classifiers, as evident from the observed drop in F1-scores in Figures \ref{fig:metrics_svm_training} and \ref{fig:metrics_xgb_training}, this drop in performance is completely understandable since the feature "token" is the negation cue itself. By examining the weighted F1-scores and confusion matrices in figures \ref{fig:best_svm} and \ref{fig:best_xgb}, it can be inferred that the SVM classifier outperformed the XGBoost classifier, correctly classifying more data points. However, the SVM classifier failed to classify the minority class "I-NEG" accurately in the development set.
 
 \begin{table}[!ht]
     \centering
@@ -82,7 +87,6 @@ weighted avg       &  0.987 &  0.976 &  0.981 & 0.985 & 0.964 & 0.973 & 13567 \\
 
 
 
-
 \begin{figure}[!ht]
 \centering
     \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/metrics_xgb_training.pdf}}
@@ -90,6 +94,7 @@ weighted avg       &  0.987 &  0.976 &  0.981 & 0.985 & 0.964 & 0.973 & 13567 \\
   \label{fig:metrics_xgb_training}
 \end{figure}
 
+The optimal hyperparameters for the SVM and XGBoost classifiers were determined using grid search. For the SVM classifier, the best parameters were found to be: $ C = 1.0 $, $ \gamma = 1 $, and $ kernel = linear $. The parameter C controls the trade-off between maximizing the margin and minimizing the classification error, Gamma determines the shape of the decision boundary, and Kernel specifies the kernel function used for transforming the input data into a higher-dimensional space. For the XGBoost classifier, the optimal parameters were: $col \ sample \ bytree= 1.0$, $learning \ rate = 0.1$, and $max \ depth = 5$. Col sample by tree regulates the fraction of features to select for each tree, the learning rate influences the contribution of each classifier, and max depth sets the maximum depth of the decision trees.
 
 
 
@@ -97,8 +102,9 @@ weighted avg       &  0.987 &  0.976 &  0.981 & 0.985 & 0.964 & 0.973 & 13567 \\
 \centering
     \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_xgb.pdf}}
   \caption{Confusion Matrices Best Selected XGBoost}
-  \label{fig:base_best_xgb}
+  \label{fig:best_xgb}
 \end{figure}
+
 
 
 
@@ -114,6 +120,9 @@ weighted avg       &  0.987 &  0.976 &  0.981 & 0.985 & 0.964 & 0.973 & 13567 \\
 \FloatBarrier
 \subsection{Baseline}
 
+In a baseline experiment, the performance of the token feature alone was compared to the previous method to evaluate its effectiveness in prediction. The results indicate that, in terms of weighted F1-score, the token feature alone performed worse than the previous method, which suggests that the inclusion of additional features was a beneficial modification as seen in table \ref{tab:baselines_results}. A closer examination of the confusion matrices reveals a reduced number of accurate predictions for the majority classes in the dataset, as seen in figures \ref{fig:base_line_svm} and \ref{fig:base_line_xgb}. Surprisingly, the token feature alone demonstrated higher performance at the macro level.
+
+
 \begin{figure}[!ht]
 \centering
     \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_base_svm.pdf}}
@@ -121,6 +130,7 @@ weighted avg       &  0.987 &  0.976 &  0.981 & 0.985 & 0.964 & 0.973 & 13567 \\
   \label{fig:base_line_svm}
 \end{figure}
 
+The best hyperparameters determined by the grid search in this case were $colsample \ bytree = 0.6$, $learning \ rate = 0.3$, and $max \ depth = 3$ for XGBoost and $C = 10.0$, $\gamma = 0.5$, $kernel = polynomial$ for SVM. It is evident that while the precision of SVM and XGBoost is relatively high for the "O" and "B-NEG" classes, it remains near zero for the "I-NEG" class on both Cardboard and Circle datasets. Regardless, macro-average precision and recall values demonstrate that the token feature holds some promise.
 
 \begin{table}[!ht]
     \centering
@@ -153,6 +163,9 @@ weighted avg       &  0.994 &  0.933 &  0.962 & 0.994 & 0.933 & 0.962 & 13567 \\
 \hline
 \end{tabular}
 \end{table}
+
+
+In conclusion, the examination of the token feature in isolation yielded mixed results. Although the token feature performed worse on a weighted F1-score level, it demonstrated higher efficiency on the macro level. Particularly, SVM and XGBoost models, trained with only the token feature, showed an improved ability to accurately classify minority class instances, e.g. "I-NEG" on the development set. These findings indicate that the token feature, while not superior in all aspects, can still contribute to overall model performance.
 
 
 

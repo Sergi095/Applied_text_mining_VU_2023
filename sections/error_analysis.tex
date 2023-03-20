@@ -6,9 +6,9 @@ Hossain et. al. \cite{hossain2020predicting} highlights the importance of perfor
 There is a total of 134 false positives divided into 12 where the model classified the token with the class B-NEG and 122 with I-NEG. From the 12 B-NEG golden label tokens, 8 of them correspond to the token \textit{not}. Some of these cases are shown in Table \ref{tab:fps}. It is very interesting to note that all the 134 false positives do not contain an affix from the list described in Section \ref{sec:featureextraction} (\textit{hasNegAffix} feature), and in the case of the 122 I-NEG classified tokens, all of them are not present in the list of highly probable negation expressions (\textit{NegExpList} feature), while all the 12 B-NEG classified tokens are.
 
 
-\begin{table}
+\begin{table}[!h]
 \centering
-\refstepcounter{table}
+% \refstepcounter{table}
 \begin{tabular}{lccc}
 \multicolumn{1}{c}{Sentence}                                                                                                                                                                                                                              & Token   & Golden Label & Prediction  \\ 
 \hline
@@ -26,9 +26,9 @@ That is definite enough.                                                        
 
 Also, there is a total of 31 false negatives divided into 29 where the model predicted O and the golden label is B-NEG, and only 2 where the golden label is I-NEG and the model predicted O. From these 29 errors, 16 corresponds to the token \textit{n't}, which \cite{cruz2016machine} defines as incorrect classification of a \textit{multiword cue}. A sample of these errors is shown in Table \ref{tab:fns}. It is interesting to note that in both errors where the golden label is I-NEG, the token associated is \textit{more} but in different contexts and making a different usage of the word. In both cases, the token is neither in the \textit{NegExpList} list nor containing an affix from the affixes list (\textit{hasNegAffix} feature).
 
-\begin{table}
+\begin{table}[!h]
 \centering
-\refstepcounter{table}
+% \refstepcounter{table}
 \begin{tabular}{lccc}
 \multicolumn{1}{c}{Sentence}                                                                                                           & Token   & Golden Label & Prediction  \\ 
 \hline
