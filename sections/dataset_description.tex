@@ -1,0 +1,52 @@
+ 
+Before the emergence of SEM 2012, the only dataset used for the Negation Cue Classification available was the Bioscope dataset, which was collected from medical papers, and the main objective was to build classifiers that would allow reliable interpretation of medical research. Unfortunately, the classifiers built on that dataset would generalise poorly to other texts, therefore SEM CD-SCO dataset was created in order to create a possibility to train negation cue classifiers applicable to non-scientific language. CD-SCO was built on Conan Doyle stories. Originally, CD-SCO is annotated with negation cues, scope of negation, and the event or property being negated. For this task, however, the scope and negated event or property annotations are going to be disregarded.
+
+
+\begin{table}[!h]
+\centering
+\caption{\label{tab:tags} Annotation tag counts}
+\begin{tabular}{llll}
+\hline
+\multicolumn{1}{c}{\textbf{Dataset}} & \multicolumn{1}{c}{\textbf{O}} & \multicolumn{1}{c}{\textbf{B-NEG}} & \multicolumn{1}{c}{\textbf{I-NEG}}                                                                                            \\ 
+\hline
+Training Set & 64448 & 987 & 16\\
+Test Set 1 & 10049 & 134 & 1\\
+Test Set 2 & 8893 & 135 & 4\\
+Development Set & 13388 & 176 & 3 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+Without the scope and negated property or event annotations, the dataset consists of five columns. A snippet of the dataset can be seen in Table \ref{tab:trainingdf}, representing the sentence: \textit{"Remarkable, but by no means impossible," said Holmes, smiling."}. The first column contains information about which story the token is from and which chapter. The second column represents the number of the sentence the token is taken from. The third column represents the position of the token itself in the sentence. The fourth column is the token itself. The last column represents if the token is a negation cue. If the token is not a negating one, it is marked with 'O', if it is a single-word negation cue it is marked with 'B-NEG'. If the negation consists of more than one world, for example, 'by no means', token 'no' is marked as 'B-NEG', as a main negation word, and tokens 'by' and 'means' are marked as 'I-NEG', representing their negating role in this context, while being 'O' in another context. Table \ref{tab:tags}  presents counts of each tag for Training and Development datasets.
+
+
+
+
+\begin{table}[!h]
+\centering
+\caption{\label{tab:trainingdf}Training dataset snippet}
+\begin{tabular}{ccccc}
+\hline
+file       & nSentence & nToken & Token        & Golden Label  \\ 
+\hline
+wisteria01 & 248       & ~ ~0   & ~ ~\`{}\`{}~ & O             \\
+wisteria01 & 248       & 1      & Remarkable   & O             \\
+wisteria01 & 248       & 2      & ,            & O             \\
+wisteria01 & 248       & 3      & but          & O             \\
+wisteria01 & 248       & 4      & by           & B-NEG         \\
+wisteria01 & 248       & 5      & no           & I-NEG         \\
+wisteria01 & 248       & 6      & means        & I-NEG         \\
+wisteria01 & 248       & 7      & impossible   & B-NEG         \\
+wisteria01 & 248       & 8      & ,            & O             \\
+wisteria01 & 248       & 9      & ''           & O             \\
+wisteria01 & 248       & 10     & said         & O             \\
+wisteria01 & 248       & 11     & Holmes       & O             \\
+wisteria01 & 248       & 12     & ,            & O             \\
+wisteria01 & 248       & 13     & smiling      & O             \\
+wisteria01 & 248       & 14     & .            & O             \\
+\hline
+\end{tabular}
+\end{table}
+

@@ -1,0 +1,30 @@
+For the Corpus Pre-Processing, given that the original corpus has been already pre-processed and tokenized, it was not possible to extract additional linguistic information from it, at least not in its tabular form. Because of this reason,the dataset was reverse-engineered, reconstructing the original sentences and applying NLP tasks over them in order to extract additional information e.g. a token's POS tag. 
+
+Once the original sentences were reconstructed, we use the spaCy library to perform the new NLP analysis, extracting a new set of tokens for each sentence. In most cases, the spaCY tokenization and the original tokenization matched, but in some cases, these two tokenizations differed, for example with some compound words like \textit{old-fashioned} which in the original dataset is tokenized as a single token and spacy tokenize it as \textit{old}, '\textit{-}' and \textit{fashioned}. In such cases, original tokenization was preserved. 
+\\
+
+Feature extraction plays a crucial role in building effective classifiers, as by properly extracting relevant features, NLP classifiers can achieve better accuracy and generalizability. It consists of the process of identifying and extracting relevant information from text data, which is then used as input to a machine learning algorithm.
+
+Taking inspiration from previous research described in the related work section \ref{sec:relatedwork}, a set of features from the NLP analysis were selected, like the POS-tag and l from each token, and also the lemma from the previous token. Also, using the spaCy dependency parser and inspired by Jiménez-Zafra et al. \cite{jimenez2020detecting} a set of dependency features as the head from each sentence and the dependency label from each token to its sentence-head were extracted. The length of the path connecting each token to its head was also extracted. 
+
+\begin{table}
+\centering
+\caption{\label{tab:features} Set of Features for the classifier}
+\begin{tabular}{ll}
+\hline
+\multicolumn{1}{c}{\textbf{~ ~ ~ Feature Name~ ~ ~ ~}} & \multicolumn{1}{c}{\textbf{Description}}                                                                                              \\ 
+\hline
+POS_i                                                 & Part-of-Speech tag of token_i\\
+Lemma_i                                               & Lemma form of token_i\\
+Lemma_{i-1}                                           & Lemma form of token_{i-1}\\
+Dependency                                            & Dependency Label from $token_{i}$ with\\& respect to to its sentence root \\
+Head                                                  & Sentence root\\
+RootPath                                              & Length of the path from token to its root\\
+hasNegAffix                                           & Token contain one of the affix from list \\
+NegExpList                                            & If token is in \textit{NegExpList}\\
+\hline
+\end{tabular}
+\end{table}
+
+
+The \textit{NegExpList} described by Chowdhury et al. \cite{chowdhury2012fbk} and checked each token for its presence in the list was also extracted as a feature. The list contains the following terms: \textit{nor, neither, without, nobody, none, nothing, never, not, no, nowhere} and  \textit{non}, which are only terms with a negative polarity. Additionally, a check was performed for each token containing the affixes described by Lapponi et al. \cite{lapponi2012uio}: \textit{un}, \textit{dis}, \textit{ir}, \textit{im}, and \textit{in}, and the infix and suffix \textbf{"less"}. A complete description of the extracted features is shown in Table \ref{tab:features}.
