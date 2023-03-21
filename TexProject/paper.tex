@@ -35,6 +35,16 @@ style=ieee]{biblatex}
 
 \usepackage{graphicx}
 \addbibresource{refs.bib}
+
+
+
+
+\usepackage[compact]{titlesec}         % 
+\titlespacing{\section}{4pt}{4pt}{4pt} % this reduces space between (sub)sections to 0pt, for example
+\AtBeginDocument{%                     % this will reduce spaces between parts (above and below) of texts within a (sub)section to 0pt, for example - like between an 'eqnarray' and text
+  \setlength\abovedisplayskip{0pt}
+  \setlength\belowdisplayskip{0pt}}
+
 \begin{document}
 %
 \title{Negation Cue Detection using SVM and XGBoost Classifiers}
@@ -73,15 +83,15 @@ Sergio A. Gutierrez Maury (2647606)
 \input{sections/experiments}
 \section{Error Analysis \label{sec:error}}
 \input{sections/error_analysis}
-\section{Discussion \& Conclusions}
-\input{sections/conclusionDiscussion}
+\section{Conclusions}
+\input{sections/conclusion}
 \newpage
 \printbibliography
 
 
 \appendix
 \section{Appendix}
-
+\input{sections/Appendix}
 
 
 
