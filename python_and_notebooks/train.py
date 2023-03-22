@@ -184,6 +184,7 @@ def plots(metrics: dict,
 
   # Define the classes
   classes = ['0', '1', '2']
+  classes_correct = ['O', 'B-NEG', 'I-NEG']
 
   # Define the metrics to plot
   metrics_to_plot = ['precision', 'recall', 'f1-score']
@@ -198,11 +199,11 @@ def plots(metrics: dict,
   # Loop over the metrics to plot
   for i, metric in enumerate(metrics_to_plot):
       # Loop over the classes
-      for j, cls in enumerate(classes):
+      for j, cls in enumerate(zip(classes, classes_correct)):
           # Extract the scores for the current class and metric
-          scores = [metrics[model][cls][metric] for model in metrics.keys()]
+          scores = [metrics[model][cls[0]][metric] for model in metrics.keys()]
           # Plot the scores as a line
-          axs[i].plot(scores, label=f'Class {cls}')
+          axs[i].plot(scores, label=f'Class {cls[1]}')
       # Add a legend to the plot
       axs[i].legend()
       # Set the x-axis label
@@ -247,21 +248,34 @@ def plot_classification_reports(X_dev: pd.DataFrame,
                                 file_name: str = None) -> None:
     fig, axes = plt.subplots(1, 3, figsize=(20, 5))
     # fig.tight_layout(pad=4.0)
+
     
     # Plot confusion matrix and classification report for dev set
     y_dev_pred = model.predict(X_dev)
-    axes[0].set_title("Dev Set")
     sns.heatmap(confusion_matrix(y_dev, y_dev_pred), annot=True, fmt='d', ax=axes[0])
+    axes[0].set_title("Dev Set")
+    axes[0].set_xlabel('Predicted labels')
+    axes[0].set_ylabel('True labels')
+    axes[0].xaxis.set_ticklabels(['O', 'B-NEG', 'I-NEG'])
+    axes[0].yaxis.set_ticklabels(['O', 'B-NEG', 'I-NEG'])
     
     # Plot confusion matrix and classification report for test set
     y_test_pred = model.predict(X_test)
-    axes[1].set_title("Test Set Cardboard")
     sns.heatmap(confusion_matrix(y_test, y_test_pred), annot=True, fmt='d', ax=axes[1])
+    axes[1].set_title("Test Set Cardboard")
+    axes[1].set_xlabel('Predicted labels')
+    axes[1].set_ylabel('True labels')
+    axes[1].xaxis.set_ticklabels(['O', 'B-NEG', 'I-NEG'])
+    axes[1].yaxis.set_ticklabels(['O', 'B-NEG', 'I-NEG'])
     
     # Plot confusion matrix and classification report for test2 set
     y_test2_pred = model.predict(X_test2)
-    axes[2].set_title("Test Set Circle")
     sns.heatmap(confusion_matrix(y_test2, y_test2_pred), annot=True, fmt='d', ax=axes[2])
+    axes[2].set_title("Test Set Circle")
+    axes[2].set_xlabel('Predicted labels')
+    axes[2].set_ylabel('True labels')
+    axes[2].xaxis.set_ticklabels(['O', 'B-NEG', 'I-NEG'])
+    axes[2].yaxis.set_ticklabels(['O', 'B-NEG', 'I-NEG'])
 
     if file_name is not None:
       plt.savefig(file_name)
@@ -269,6 +283,7 @@ def plot_classification_reports(X_dev: pd.DataFrame,
     if title is not None:
       fig.suptitle(title) # main title
     plt.show()
+
 
 
 def get_classification_reports(X_dev: pd.DataFrame,
@@ -304,30 +319,30 @@ def get_classification_reports(X_dev: pd.DataFrame,
     y_dev_pred = model.predict(X_dev)
     cr_dev = classification_report(y_dev, y_dev_pred, output_dict=True)
     df.loc['Dev'] = " ", " ", " ", " "
-    df.loc['Dev 0'] = [cr_dev['0']['precision'], cr_dev['0']['recall'], cr_dev['0']['f1-score'], cr_dev['0']['support']]
-    df.loc['Dev 1'] = [cr_dev['1']['precision'], cr_dev['1']['recall'], cr_dev['0']['f1-score'], cr_dev['1']['support']]
-    df.loc['Dev 2'] = [cr_dev['2']['precision'], cr_dev['2']['recall'], cr_dev['2']['f1-score'], cr_dev['2']['support']]
-    df.loc['Dev macro avg'] = [cr_dev['macro avg']['precision'], cr_dev['macro avg']['recall'], cr_dev['macro avg']['f1-score'], cr_dev['macro avg']['support']]
+    df.loc['Dev 0'] = [round(cr_dev['0']['precision'],3), round(cr_dev['0']['recall'],3), round(cr_dev['0']['f1-score'],3), round(cr_dev['0']['support'],3)]
+    df.loc['Dev 1'] = [round(cr_dev['1']['precision'], 3),round(cr_dev['1']['recall'], 3),round(cr_dev['0']['f1-score'], 3),round(cr_dev['1']['support'],3)]
+    df.loc['Dev 2'] = [round(cr_dev['2']['precision'], 3),round(cr_dev['2']['recall'], 3),round(cr_dev['2']['f1-score'], 3),round(cr_dev['2']['support'],3)]
+    df.loc['Dev macro avg'] = [round(cr_dev['macro avg']['precision'], 3),cr_dev['macro avg']['recall'], cr_dev['macro avg']['f1-score'], cr_dev['macro avg']['support']]
     df.loc['Dev weighted avg'] = [cr_dev['weighted avg']['precision'], cr_dev['weighted avg']['recall'], cr_dev['weighted avg']['f1-score'], cr_dev['weighted avg']['support']]
 
     # Get classification report for test set
     y_test_pred = model.predict(X_test)
     cr_test = classification_report(y_test, y_test_pred, output_dict=True)
     df.loc['Test'] = " ", " ", " ", " "
-    df.loc['Test 0'] = [cr_test['0']['precision'], cr_test['0']['recall'], cr_test['0']['f1-score'], cr_test['0']['support']]
-    df.loc['Test 1'] = [cr_test['1']['precision'], cr_test['1']['recall'], cr_test['1']['f1-score'], cr_test['1']['support']]
-    df.loc['Test 2'] = [cr_test['2']['precision'], cr_test['2']['recall'], cr_test['2']['f1-score'], cr_test['2']['support']]
-    df.loc['Test macro avg'] = [cr_test['macro avg']['precision'], cr_test['macro avg']['recall'], cr_test['macro avg']['f1-score'], cr_test['macro avg']['support']]
-    df.loc['Test weighted avg'] = [cr_test['weighted avg']['precision'], cr_test['weighted avg']['recall'], cr_test['weighted avg']['f1-score'], cr_test['weighted avg']['support']]
+    df.loc['Test 0'] = [round(cr_test['0']['precision'],3), round(cr_test['0']['recall'],3), round(cr_test['0']['f1-score'],3), round(cr_test['0']['support'],3)]
+    df.loc['Test 1'] = [round(cr_test['1']['precision'],3), round(cr_test['1']['recall'],3), round(cr_test['1']['f1-score'],3), round(cr_test['1']['support'],3)]
+    df.loc['Test 2'] = [round(cr_test['2']['precision'],3), round(cr_test['2']['recall'],3), round(cr_test['2']['f1-score'],3), round(cr_test['2']['support'],3)]
+    df.loc['Test macro avg'] = [round(cr_test['macro avg']['precision'],3), round(cr_test['macro avg']['recall'],3), round(cr_test['macro avg']['f1-score'],3),round( cr_test['macro avg']['support'],3)]
+    df.loc['Test weighted avg'] = [cr_test['weighted avg']['precision'], round(cr_test['weighted avg']['recall'],3), round(cr_test['weighted avg']['f1-score'],3),round( cr_test['weighted avg']['support'],3)]
     
     # Get classification report for test2 set
     y_test2_pred = model.predict(X_test2)
     cr_test2 = classification_report(y_test2, y_test2_pred, output_dict=True)
     df.loc['Test1'] = " ", " ", " ", " "
-    df.loc['Test1 0'] = [cr_test2['0']['precision'], cr_test2['0']['recall'], cr_test2['0']['f1-score'], cr_test2['0']['support']]
-    df.loc['Test1 1'] = [cr_test2['1']['precision'], cr_test2['1']['recall'], cr_test2['1']['f1-score'], cr_test2['1']['support']]
-    df.loc['Test1 2'] = [cr_test2['2']['precision'], cr_test2['2']['recall'], cr_test2['2']['f1-score'], cr_test2['2']['support']]
-    df.loc['Test1 macro avg'] = [cr_test2['macro avg']['precision'], cr_test2['macro avg']['recall'], cr_test2['macro avg']['f1-score'], cr_test2['macro avg']['support']]
-    df.loc['Test1 weighted avg'] = [cr_test2['weighted avg']['precision'], cr_test2['weighted avg']['recall'], cr_test2['weighted avg']['f1-score'], cr_test2['weighted avg']['support']]
+    df.loc['Test1 0'] = [round(cr_test2['0']['precision'],3), round(cr_test2['0']['recall'],3), round(cr_test2['0']['f1-score'],3), round(cr_test2['0']['support'],3)]
+    df.loc['Test1 1'] = [round(cr_test2['1']['precision'],3), round(cr_test2['1']['recall'],3), round(cr_test2['1']['f1-score'],3), round(cr_test2['1']['support'],3)]
+    df.loc['Test1 2'] = [round(cr_test2['2']['precision'],3), round(cr_test2['2']['recall'],3), round(cr_test2['2']['f1-score'],3), round(cr_test2['2']['support'],3)]
+    df.loc['Test1 macro avg'] = [round(cr_test2['macro avg']['precision'],3), round(cr_test2['macro avg']['recall'],3), round(cr_test2['macro avg']['f1-score'],3), cr_test2['macro avg']['support']]
+    df.loc['Test1 weighted avg'] = [round(cr_test2['weighted avg']['precision'],3), round(cr_test2['weighted avg']['recall'],3), round(cr_test2['weighted avg']['f1-score'],3), cr_test2['weighted avg']['support']]
     
     return df
