@@ -36,7 +36,7 @@ In the present research, XGBoost's tree-based classifier was implemented with th
 \subsection{Baseline}
 \begin{figure}[!ht]
 \centering
-    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_base_svm.pdf}}
+    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{python_and_notebooks/Plots_and_results//Confusion_Matrix_base_svm.pdf}}
   \caption{Confusion Matrices Baseline SVM}
   \label{fig:base_line_svm}
 \end{figure}
@@ -48,36 +48,42 @@ In an experiment designed to establish a baseline, the predictive efficacy of th
     \label{tab:baselines_results}
 \begin{tabular}{lccc|cccr}
 \hline
-Dataset & \begin{tabular}[c]{@{}l@{}}Precision\\ (SVM)\end{tabular} &    \begin{tabular}[c]{@{}l@{}}Recall\\ (SVM)\end{tabular} &  \begin{tabular}[c]{@{}l@{}}F1-Score\\ (SVM)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Precision\\ (XGBoost)\end{tabular} &    \begin{tabular}[c]{@{}l@{}}Recall\\ (XGBoost)\end{tabular} &  \begin{tabular}[c]{@{}l@{}}F1-Score\\ (XGBoost)\end{tabular} & Support  \\
+Dataset & \begin{tabular}[c]{@{}l@{}}Precision\\ (SVM)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Recall\\ (SVM)\end{tabular} & \begin{tabular}[c]{@{}l@{}}F1-Score\\ (SVM)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Precision\\ (XGBoost)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Recall\\ (XGBoost)\end{tabular} & \begin{tabular}[c]{@{}l@{}}F1-Score\\ (XGBoost)\end{tabular} & Support  \\
 \hline
 \textbf{Cardboard} &        &        &        &       &       &       &    \\
-O                  &  0.996 &  0.937 &  0.966 & 0.995 & 0.938 & 0.966 & 10049 \\
-B-NEG              &  0.858 &  0.589 &  0.699 & 0.894 & 0.507 & 0.647 & 134 \\
-I-NEG              &    0.0 &    0.0 &    0.0 &  0.0  & 0.0   & 0.0   & 1 \\
-macro avg          &  0.618 &  0.509 &  0.555 & 0.630 & 0.481 & 0.537 & 10184 \\
-weighted avg       &  0.994 &  0.933 &  0.962 & 0.994 & 0.932 & 0.961 & 10184 \\
+O                  &  0.995 &  0.938 &  0.966 & 0.996 & 0.938 & 0.966 & 10049 \\
+B-NEG              &  0.893 &  0.500 &  0.641 & 0.897 & 0.522 & 0.660 & 134 \\
+I-NEG              &  0.000 &  0.000 &  0.000 & 0.000 & 0.000 & 0.000 & 1 \\
+macro avg          &  0.630 &  0.479 &  0.536 & 0.631 & 0.487 & 0.542 & 10184 \\
+weighted avg       &  0.994 &  0.933 &  0.962 & 0.994 & 0.933 & 0.962 & 10184 \\
 \hline
 \textbf{Circle}    &        &        &        &       &       &       &   \\
-O                  &  0.997 &  0.938 &  0.967 & 0.995 & 0.940 & 0.967 & 8893 \\
-B-NEG              &  0.767 &  0.637 &  0.696 & 0.850 & 0.548 & 0.667 & 135 \\
-I-NEG              &    0.0 &    0.0 &    0.0 &  0.0  & 0.0   &   0.0 & 4 \\
-macro avg          &  0.588 &  0.525 &  0.554 & 0.615 & 0.496 & 0.544 & 9032 \\
-weighted avg       &  0.993 &  0.934 &  0.962 & 0.992 & 0.934 & 0.962 & 9032 \\
+O                  &  0.996 &  0.940 &  0.967 & 0.996 & 0.940 & 0.967 & 8893 \\
+B-NEG              &  0.851 &  0.548 &  0.667 & 0.851 & 0.548 & 0.667 & 135 \\
+I-NEG              &  0.000 &  0.000 &  0.000 & 0.000 & 0.000 & 0.000 & 4 \\
+macro avg          &  0.615 &  0.496 &  0.545 & 0.615 & 0.496 & 0.545 & 9032 \\
+weighted avg       &  0.993 &  0.934 &  0.962 & 0.993 &  0.934 & 0.962 & 9032 \\
 \hline
-\textbf{Dev set}   &        &        &        &       &       & &   \\
-O                  &  0.996 &  0.938 &  0.966 & 0.995 & 0.939 & 0.966 & 13388 \\
-B-NEG              &  0.847 &  0.568 &  0.966 & 0.925 & 0.494 & 0.966 & 176 \\
-I-NEG              &  0.002 &  0.667 &  0.004 & 0.002 & 0.667 & 0.004 & 3 \\
-macro avg          &  0.615 &  0.724 &  0.550 & 0.641 & 0.700 & 0.538 & 13567 \\
-weighted avg       &  0.994 &  0.933 &  0.962 & 0.994 & 0.933 & 0.962 & 13567 \\
+\textbf{Dev set}   &        &        &        &       &       &       &   \\
+O                  &  0.995 &  0.939 &  0.966 & 0.996 & 0.939 & 0.967 & 13388 \\
+B-NEG              &  0.922 &  0.472 &  0.966 & 0.928 & 0.511 & 0.967 & 176 \\
+I-NEG              &  0.002 &  0.667 &  0.005 & 0.002 & 0.667 & 0.005 & 3 \\
+macro avg          &  0.640 &  0.692 &  0.532 & 0.642 & 0.706 & 0.544 & 13567 \\
+weighted avg       &  0.994 &  0.933 &  0.962 & 0.995 & 0.934 & 0.962 & 13567 \\
 \hline
 \end{tabular}
 \end{table}
+
+
+
+
+
+
 Furthermore, the hyperparameters selected for XGBoost were $colsample \ bytree = 0.6$, $learning \ rate = 0.3$, and $max \ depth = 3$ while for SVM, the parameters were $C = 10.0$, $\gamma = 0.5$, and kernel type was set to polynomial based on the grid search results in this particular experiment.
 
 \begin{figure}[!h]
 \centering
-    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_base_xgb.pdf}}
+    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{python_and_notebooks/Plots_and_results//Confusion_Matrix_base_xgb.pdf}}
   \caption{Confusion Matrices Baseline XGBoost}
   \label{fig:base_line_xgb}
 \end{figure}
@@ -87,7 +93,7 @@ During the ablation study, a random feature was removed at each iteration, and t
 
 \begin{figure}[!ht]
 \centering
-    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/metrics_svm_training.pdf}}
+    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{python_and_notebooks/Plots_and_results//metrics_svm_training.pdf}}
   \caption{Metrics During Ablation Study SVM}
   \label{fig:metrics_svm_training}
 \end{figure}
@@ -133,7 +139,7 @@ weighted avg       &  0.987 &  0.976 &  0.981 & 0.985 & 0.964 & 0.973 & 13567 \\
 
 \begin{figure}[!ht]
 \centering
-    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/metrics_xgb_training.pdf}}
+    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{python_and_notebooks/Plots_and_results//metrics_xgb_training.pdf}}
   \caption{Metrics During Ablation Study XGBoost}
   \label{fig:metrics_xgb_training}
 \end{figure}
