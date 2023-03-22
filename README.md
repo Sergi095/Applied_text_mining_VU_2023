@@ -6,18 +6,20 @@ This repository contains code and data for an automatic negation cue classifier 
 
 ## Files in the Repository
 
-* plots and results: folder with all plots, saved models and metrics of the experiment.
 * Applied_text_mining_conda_Env.yml: This file contains the environment used for this project.
-* Tex project: The LaTeX project for the final report, with a folder for the sections.
+* Tex project: The LaTeX project for the final report.
+* Sections: folder for the sections.
 
 Within the python_and_notebook folder:
+* plots and results: folder with all plots, tables, saved models and metrics of the experiment.
+* Data folder: folder with data files.
 *  classifier_svm_vs_xgboost.ipynb: This is the main notebook that contains the experiments and results of the classifier.
 * utils.py: This module contains helper functions for preprocessing the data.
 * train.py: This module contains the training functions for the classifier.
 * saved-5-sergio.zip: Individual annotations.
 * sergio_jupyter.ipynb: Individual Assignment.
 * customTfidf.py: custom class of vectorizer.
-* Data folder: folder with data files.
+
 
 ## How to Install ThunderSVM
 Instructions for installing ThunderSVM can be found in the [official documentation.](https://thundersvm.readthedocs.io/en/latest/get-started.html)
