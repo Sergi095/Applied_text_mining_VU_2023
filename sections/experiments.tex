@@ -28,20 +28,18 @@ Specifically, the pipeline involved a column preprocessor that implemented stand
 \subsection{Support Vector Machine} 
 \textbf{SVM} was first introduced by Vapnik and Cortes (1995) \cite{vapnik1995}, and was quickly recognized as one of the most successful classification algorithms. The basic idea behind the model is finding such a hyperplane between the plotted classes in a way, where the margin, i.e. the distance, between the two classes is maximized. SVM algorithms show great robustness against noise and control over-fitting \cite{robust2009}. Moreover, previous work regarding the application of SVM for negation Cue Detection, as described in the Related Work section, suggests the state-of-the-art performance of the algorithm for this task. The specific implementation of SVM used in this paper was  "\textit{thundersvm}", which make use of GPU in its computations. The library was created by Wen Zeyi et al. (2018) \cite{thundersvm}
 
-\begin{figure}[!ht]
-\centering
-    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_base_svm.pdf}}
-  \caption{Confusion Matrices Baseline SVM}
-  \label{fig:base_line_svm}
-\end{figure}
-
 \subsection{XGBoost}
 \textbf{XGBoost} is a powerful and complex machine learning algorithm that has shown excellent performance in capturing intricate patterns in data. As a tree-based classifier, it sequentially builds new trees upon the starting predictor tree, with each new tree aiming to predict the margin of error of the decision produced by the ensemble of trees it is built upon \cite{minasny2009elements}.
 
 In the present research, XGBoost's tree-based classifier was implemented with the XGBoost package. The $tree\_method$ parameter was set to $gpu\_hist$ in order to decrease the running time of the algorithm. Specifically, this approach performs sketching only once and makes use of GPU, thereby enhancing computational efficiency.
 
 \subsection{Baseline}
-
+\begin{figure}[!ht]
+\centering
+    \makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{Plots and results/Confusion_Matrix_base_svm.pdf}}
+  \caption{Confusion Matrices Baseline SVM}
+  \label{fig:base_line_svm}
+\end{figure}
 
 In an experiment designed to establish a baseline, the predictive efficacy of the token feature is assessed in isolation. In table \ref{tab:baselines_results}, the results of the baseline are depicted. It can be seen that both weighted F1-score and macro F1-score are around 0.9 and 0.5 respectively for all test sets. Figures \ref{fig:base_line_svm} and \ref{fig:base_line_xgb} shows the confusion matrices of both SVM and XGBoost on the tests and dev sets, providing a further insight into the performance with the feature token alone, it can be seen that despite not having features with contextual information, both classifiers were able to perform reasonably well.
 \begin{table}[!ht]

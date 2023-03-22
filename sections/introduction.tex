@@ -1,14 +1,13 @@
 Negation Cue Detection is an essential aspect of Natural Language Processing (NLP) and Text Mining that enables automated systems to classify the sentiment or opinion expressed in a sentence. In essence, negation cues are linguistic markers that indicate the presence of negation in a sentence. They can manifest in diverse forms, such as single words like "never," multi-words like "no longer" and "by no means," or affixes like "im-" and "-less." Negation cues can also be complex, discontinuous, and have a scope that encompasses all negated concepts and events, excluding the negation cue itself \cite{jbara-2012}. 
-\\
+
 
 However, identifying negation cues presents several challenges in NLP and Text Mining. For example, negation cues can have different meanings depending on the context in which they appear, and detecting their scope can be difficult in complex sentences. Moreover, the incorrect detection or omission of negation cues can significantly impact the overall interpretation of the text, leading to unreliable insights and results.
-\\
+
 
 Therefore, accurately detecting negation cues is vital for many NLP and Text Mining tasks, such as Sentiment Analysis \cite{cruz2016machine} and Clinical Text Mining \cite{mehrabi2015deepen}, as it enables automated systems to extract the correct sentiment or opinion expressed in the text data. 
-\\
 
-This paper presents two models for automatic negation cue classification,  Support Vector Machines (SVM) and XGBoost, and conduct an ablation study to determine the impact of the features used in automatic detection. The study aims to assess the performance of the models in accurately detecting negation cues and their scope, which is crucial for obtaining reliable insights from text data.
-\\
+This paper aims to assess the performance of two models, Support Vector Machines (SVM) and XGBoost, in predicting negation cues based on features as described by Chowdhury et al. (2012) and Lapponi et al. (2012) \cite{chowdhury2012fbk, lapponi2012uio}. The focus is on evaluating the accuracy of the models in detecting negation cues and their scope, which is essential for obtaining reliable insights from text data. The study uses an ablation analysis to determine the impact of different features on the performance of the models, providing insights into which features are most relevant for negation cue classification.
 
- The paper is structured as follows: firstly, related work in negation cue detection is reviewed. Secondly, an annotation experiment is carried out to gain a deeper knowledge in the data annotation process. Thirdly, a description of the data used in the experiments is presented. Next, the corpus pre-processing and feature extraction is described. After this, the description of the experimental setup is presented, where an ablation study is done, with its results. In section \ref{sec:error}, an error analysis is performed, with the best-performing iteration out of the ablation study, on the circle test set. Finally, the conclusions of the present research are carried out, with the main challenges and limitations discussed.
+
+ The paper is structured as follows: firstly, related work in negation cue detection is reviewed. Secondly, an annotation experiment is carried out to gain a deeper knowledge in the data annotation process. Thirdly, a description of the data used in the experiments is presented. Next, the corpus pre-processing and feature extraction is described. After this, the description of the experimental setup is presented, where the ablation study is done, and results are shown. In section \ref{sec:error}, an error analysis is performed, with the best-performing iteration out of the ablation study, on the circle test set. Finally, the conclusions of the present research are carried out, with the main challenges and limitations discussed.
 
